@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Productos</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <a th:href="@{/producto/nuevo}" class="btn btn-primary">Nuevo</a>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <table class="table table-success table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="producto:${productos}">
+                <th scope="row" th:text="${producto.id}"></th>
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.descripcion}"></td>
+                <td th:text="${producto.costo}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.cantidad}"></td>
+                <td>
+                  <a th:href="@{/producto/actualizar/}+${producto.id}" class="btn btn-warning">Actualizar</a>
+                  <a onclick="eliminar_pregunta(this)" th:attr="data-url=@{/producto/eliminar/}+${producto.id}" class="btn btn-danger">Eliminar</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="/funciones.js"></script>
+      <div th:if="${eliminar}" style="display: none">
+        <script>
+          eliminar_confirmacion();
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

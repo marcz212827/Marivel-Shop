@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Error</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading mb-4">La página no ha sido encontrada</h4>
+            <a th:href="@{/}" class="btn btn-primary">Volver</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

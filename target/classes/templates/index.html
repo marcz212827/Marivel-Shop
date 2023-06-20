@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>INICIO</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      .card {
+        width: 25rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: #f8f9fa;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .card-body {
+        position: relative;
+        padding: 10px;
+      }
+
+      .card-text {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border-radius: 4px;
+      }
+
+      .card-img-top {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .card-footer {
+        text-align: center;
+        padding: 10px;
+      }
+
+      .form-control {
+        width: 70px;
+      }
+
+      .btn-warning {
+        background-color: #ffc107;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .btn-warning:hover {
+        background-color: #ffa000;
+      }
+    </style>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div th:each="producto: ${productos}" class="col mb-4">
+          <div class="card">
+            <h3 th:text="${producto.nombre}" class="card-header"></h3>
+            <div class="card-body position-relative">
+              <i th:inline="text" class="card-text">S/. [[${producto.precio}]]</i>
+              <img th:src="${producto.imagen}" class="card-img-top" th:alt="${producto.nombre}" />
+            </div>
+            <div class="card-footer">
+              <p th:text="${producto.descripcion}" class="card-text"></p>
+              <form th:action="@{/carrito/agregar}" method="post">
+                <div class="row align-items-center mb-3">
+                  <input th:value="${producto.id}" type="hidden" class="form-control" name="id_producto" />
+                  <div class="col">
+                    <label for="cantidad" class="col-form-label">Cantidad</label>
+                  </div>
+                  <div class="col">
+                    <input type="number" value="1" min="1" class="form-control" name="cantidad" />
+                  </div>
+                  <div class="col">
+                    <button type="submit" class="btn btn-warning" name="agregar">Agregar al carrito</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

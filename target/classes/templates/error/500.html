@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Error</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading mb-4">Error interno</h4>
+            <div class="mb-4" th:if="${msg}">
+              <p th:if="${msg}" th:text="${msg}"></p>
+              <p th:unless="${msg}">Estamos trabajando para solucionar el problema.</p>
+            </div>
+            <a th:href="@{/}" class="btn btn-primary">Volver</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

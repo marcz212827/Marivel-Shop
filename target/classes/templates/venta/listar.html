@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Productos</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <h1>Ventas</h1>
+          <table class="table table-success table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="venta:${ventas}">
+                <th scope="row" th:text="${venta.id}"></th>
+                <td th:text="${venta.fecha}"></td>
+                <td th:text="${venta.CalcularMonto()}"></td>
+                <td class="fit">
+                  <a th:href="@{/venta/detalle/}+${venta.id}" class="btn btn-warning">Ver Detalle</a>
+                </td>
+              </tr>
+              <tr th:if="${ventas == null or ventas.isEmpty()}">
+                <th colspan="4" class="text-center">No tienes ventas registradas</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="/funciones.js"></script>
+      <div th:if="${eliminar}" style="display: none">
+        <script>
+          eliminar_confirmacion();
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

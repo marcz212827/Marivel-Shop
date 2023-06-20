@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Carrito</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <h1>Carrito</h1>
+          <table class="table table-success table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="item,iter:${items}" th:with="id_form='actualizar'+${iter.count}">
+                <form th:id="${id_form}" th:action="@{/carrito/actualizar}" method="post"></form>
+                <input th:value="${item.carrito.id}" th:form="${id_form}" type="hidden" name="id_carrito" />
+                <input th:value="${item.producto.id}" th:form="${id_form}" type="hidden" name="id_producto" />
+                <th scope="row" th:text="${iter.count}"></th>
+                <td th:text="${item.producto.nombre}"></td>
+                <td th:text="${item.producto.precio}"></td>
+                <td class="fit">
+                  <input
+                    th:value="${item.cantidad}"
+                    th:form="${id_form}"
+                    type="number"
+                    min="1"
+                    class="form-control form-control-sm w-auto"
+                    name="cantidad" />
+                </td>
+                <td th:text="${item.CalcularMonto()}"></td>
+                <td class="fit">
+                  <button th:form="${id_form}" class="btn btn-warning">Actualizar</button>
+                  <a th:href="@{/carrito/eliminar/}+${item.carrito.id}+'/'+${item.producto.id}" class="btn btn-danger">Eliminar</a>
+                </td>
+              </tr>
+              <tr th:if="${monto}">
+                <th colspan="4" class="text-end">Monto</th>
+                <th th:text="${monto}"></th>
+              </tr>
+              <tr th:if="${items == null or items.isEmpty()}">
+                <th colspan="6" class="text-center">No hay productos en tu carrito</th>
+              </tr>
+            </tbody>
+          </table>
+          <form th:action="@{/carrito/comprar}" method="post">
+        <form th:action="@{/carrito/comprar}" method="post" id="formulario-venta">
+            <button type="submit" class="btn btn-primary">Procesar venta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('formulario-venta').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío normal del formulario
+
+        // Muestra el Sweetalert con el mensaje "Venta exitosa"
+        swal("Venta exitosa");
+
+        // Opcionalmente, puedes redirigir a otra página después de mostrar el Sweetalert
+        setTimeout(function() {
+          window.location.href = "index.html";
+        }, 2000); // Redirige después de 2 segundos (2000 milisegundos)
+      });
+    </script>
+  </body>
+</html>

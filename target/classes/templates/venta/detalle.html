@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Detalle Ventas</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <h1>Detalle de Venta</h1>
+          <table class="table table-success table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+                <!-- <th scope="col">Acciones</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="det,iter:${detalle}">
+                <th scope="row" th:text="${iter.count}"></th>
+                <td th:text="${det.producto.nombre}"></td>
+                <td th:text="${det.producto.precio}"></td>
+                <td th:text="${det.cantidad}"></td>
+                <td th:text="${det.CalcularMonto()}"></td>
+              </tr>
+              <tr th:if="${monto}">
+                <th colspan="4" class="text-end">Monto</th>
+                <th th:text="${monto}"></th>
+              </tr>
+              <tr th:if="${detalle == null or detalle.isEmpty()}">
+                <th colspan="5" class="text-center">No tienes ventas registradas</th>
+              </tr>
+            </tbody>
+          </table>
+          <a th:href="@{/venta/listar}" class="btn btn-primary">Volver</a>
+          <form action="/reportes/buscar-cotizacion" method="GET">
+            <input type="text" name="ventaId" placeholder="ID de venta">
+            <button type="submit">Buscar cotización</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
