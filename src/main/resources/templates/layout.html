@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Marivel Shop</title>
+    <style>
+      .table td.fit,
+      .table th.fit {
+        white-space: nowrap;
+        width: 1%;
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Start Navbar -->
+    <!-- text-white -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/index}">
+          <!-- TODO: Tal vez div.row>div.col-auto funcione -->
+          <img th:src="@{/img/logo.jpg}" alt="Bootstrap" width="150px" height="80px" />
+          &nbsp;&nbsp;&nbsp;Marivel Shop
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/index}">Comprar <i class="bi bi-currency-dollar"></i></a>
+            </li>
+            <li sec:authorize="isAnonymous() or hasRole('CLIENTE')" class="nav-item">
+              <a class="nav-link" th:href="@{/carrito/mostrar}">Carrito de compras <i class="bi bi-cart2"></i></a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+              <a class="nav-link" th:href="@{/producto/listar}">Productos <i class="bi bi-box-seam"></i></a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+              <a class="nav-link" th:href="@{/reportes/}">Reportes <i class="bi bi-bar-chart-fill"></i></a>
+            </li>
+            <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+              <a class="nav-link" th:href="@{/venta/listar}">Ventas <i class="bi bi-ui-checks"></i></a>
+            </li>
+          </ul>
+          <div sec:authorize="isAnonymous()">
+            <div class="row gx-3">
+              <div class="col-auto">
+                <a class="btn btn-secondary" th:href="@{/login}">Iniciar Sesión</a>
+              </div>
+              <div class="col-auto">
+                <a class="btn btn-primary" th:href="@{/cliente/nuevo}">Crear cuenta</a>
+              </div>
+            </div>
+          </div>
+          <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-flex">
+            <div class="row">
+              <div class="col-auto my-auto text-white">Hola&nbsp;<span sec:authentication="name"></span></div>
+              <div class="col-auto">
+                <button class="btn btn-info" type="submit">Cerrar Sesión <i class="bi bi-door-open"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container mt-3" layout:fragment="content"></div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"></script>
+  </body>
+</html>

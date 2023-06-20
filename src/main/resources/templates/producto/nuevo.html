@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>Crear producto</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <h3>Módulo Producto</h3>
+          <form th:action="@{/producto/guardar}" th:object="${producto}" method="POST" enctype="multipart/form-data">
+            <div class="row mt-3 gx-5">
+              <div class="col">
+                <div th:if="*{id} != 0" class="mb-3">
+                  <label class="form-label">ID</label>
+                  <input th:value="*{id}" type="text" class="form-control" readonly />
+                  <input th:field="*{id}" type="hidden" class="form-control" id="id_producto" />
+                </div>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input th:field="*{nombre}" type="text" class="form-control" id="nombre" />
+                </div>
+                <div class="mb-3">
+                  <label for="descripcion" class="form-label">Descripción</label>
+                  <input th:field="*{descripcion}" type="text" class="form-control" id="descripcion" />
+                </div>
+                <div class="mb-3">
+                  <label for="costo" class="form-label">Costo</label>
+                  <input th:field="*{costo}" type="number" class="form-control" id="costo" />
+                </div>
+                <div class="mb-3">
+                  <label for="precio" class="form-label">Precio</label>
+                  <input th:field="*{precio}" type="number" class="form-control" id="precio" />
+                </div>
+                <div class="mb-3">
+                  <label for="cantidad" class="form-label">Cantidad</label>
+                  <input th:field="*{cantidad}" type="number" class="form-control" id="cantidad" />
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="${button_text}" value="Guardar"></button>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="img" class="form-label">Imagen</label>
+                  <input class="form-control" type="file" accept="image/png, image/jpeg" id="img" name="img" />
+                </div>
+                <div class="mb-3">
+                  <!-- TODO: Boton para limpiar input -->
+                  <button type="button" class="btn btn-outline-primary" onclick="resetInput()">Descartar archivo</button>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Antigüa Imagen</label>
+                  <div class="text-center">
+                    <img th:src="*{imagen}" width="80%" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+        const input = document.getElementById("img");
+        const resetInput = function () {
+          input.value = "";
+          if (!/safari/i.test(navigator.userAgent)) {
+            input.type = "";
+            input.type = "file";
+          }
+        };
+      </script>
+    </div>
+  </body>
+</html>

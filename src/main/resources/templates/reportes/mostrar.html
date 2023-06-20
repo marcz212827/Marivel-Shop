@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+  <head>
+    <title>REPORTES</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+      var ventas_cliente = /*[[${ventasCliente}]]*/ "noValue";
+      var ventas_mes = /*[[${ventasMes}]]*/ "noValue";
+      var productos_vendidos = /*[[${productosVendidos}]]*/ "noValue";
+
+      function columnas_ventas_cliente() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "Cliente");
+        data.addColumn("number", "Cantidad");
+        Object.keys(ventas_cliente).forEach(function (key) {
+          data.addRow([key, ventas_cliente[key]]);
+        });
+        var options = {
+          //   title: "Cantidad de Ventas por Cliente",
+          hAxis: {
+            title: "Cliente",
+          },
+          vAxis: {
+            title: "Cantidad",
+          },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("ventas_cliente"));
+        chart.draw(data, options);
+      }
+      function columnas_ventas_mes() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "Mes");
+        data.addColumn("number", "Monto");
+        Object.keys(ventas_mes).forEach(function (key) {
+          data.addRow([key, ventas_mes[key]]);
+        });
+        var options = {
+          //   title: "Total de Ventas por Mes",
+          hAxis: {
+            title: "Mes",
+          },
+          vAxis: {
+            title: "Monto",
+          },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("ventas_mes"));
+        chart.draw(data, options);
+      }
+      function pie_productos() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "Productos");
+        data.addColumn("number", "Cantidad");
+        Object.keys(productos_vendidos).forEach(function (key) {
+          data.addRow([key, productos_vendidos[key]]);
+        });
+        var options = {
+          //   title: "Cantidad de Productos Vendidos",
+        };
+        var chart = new google.visualization.PieChart(document.getElementById("productos_vendidos"));
+        chart.draw(data, options);
+      }
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          google.charts.load("current", { packages: ["corechart", "bar"] });
+          google.charts.setOnLoadCallback(columnas_ventas_cliente);
+          google.charts.setOnLoadCallback(columnas_ventas_mes);
+          google.charts.setOnLoadCallback(pie_productos);
+        },
+        false
+      );
+    </script>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div class="row">
+        <div class="col">
+          <h3>Cantidad de Ventas por Cliente</h3>
+          <div id="ventas_cliente"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Total de Ventas por Mes</h3>
+          <div id="ventas_mes"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Cantidad de Productos Vendidos</h3>
+          <div id="productos_vendidos"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
